@@ -41,6 +41,7 @@ board.on("ready", function() {
   //--------------Buttons-setup
   var pin = new five.Pin("A0");
   var active = "wait";
+  var state = -1;
   var buttons = {
     131 : "up",
     0 : "right",
@@ -52,7 +53,8 @@ board.on("ready", function() {
   //--------------Loop-cycle
   this.loop(100, function() {
     pin.read(function(error, value) {
-      if(value != 1023 & buttons[value] !== undefined) {
+      if(state != value & value != 1023 & buttons[value] !== undefined) {
+        state = value;
         active = buttons[value];
         activate();
       }
